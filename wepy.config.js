@@ -41,6 +41,13 @@ module.exports = {
     }
   },
   plugins: {
+    replace: {
+      filter: /\.js$/,
+      config: {
+        find: /__BASE_URL__/g,
+        replace: prod ? "'https://www.bitime.xin/api/v1'" : "'http://bitime.test/api/v1'"
+      }
+    }
   },
   appConfig: {
     noPromiseAPI: ['createSelectorQuery']
@@ -68,6 +75,13 @@ if (prod) {
         png: {
           quality: 80
         }
+      }
+    },
+    replace: {
+      filter: /\.js$/,
+      config: {
+        find: /__BASE_URL__/g,
+        replace: prod ? "'https://www.bitime.xin/api/v1'" : "'http://bitime.test/api/v1'"
       }
     }
   }
