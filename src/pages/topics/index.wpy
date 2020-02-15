@@ -22,7 +22,7 @@
     float: right;
   }
 </style>
-<template>
+
 <template>
 <view class="page">
   <view class="page__bd">
@@ -84,10 +84,10 @@
         // 如果传入参数 reset 为true，则覆盖 topics
         this.topics = reset ? topics : this.topics.concat(topics)
 
-        let pagination = topicsResponse.data.meta.pagination
+        let pagination = topicsResponse.data.meta
 
         // 根据分页设置是否还有更多数据
-        if (pagination.current_page === pagination.total_pages) {
+        if (pagination.current_page === pagination.total) {
           this.noMoreData = true
         }
         this.$apply()

@@ -23,5 +23,7 @@
 	"appid": "wx787a362d54f2b381",
 	"projectname": "bitime-weapp",
 	"miniprogramRoot": "dist/",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {}
 }
