@@ -1,7 +1,7 @@
 import wepy from 'wepy'
 
-// 服务器接口地址
-const host = __BASE_URL__
+// 服务器接口地址__BASE_URL__
+const host = 'http://bitime.test/api/v1'
 
 // 普通请求
 const request = async (options, showLoading = true) => {

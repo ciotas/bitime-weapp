@@ -46,7 +46,8 @@ export default class extends wepy.app {
       'pages/users/edit',
       'pages/users/show',
       'pages/auth/login',
-      'pages/auth/register'
+      'pages/auth/register',
+      'pages/replies/index'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -160,9 +161,9 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
-    wepy.login().then(res => {
-      console.log('login: ', res)
-    })
+    // wepy.login().then(res => {
+    //   console.log('login: ', res)
+    // })
     // 小程序启动，调用一起获取未读消息数
     // this.updateUnreadCount()
     // 每隔 60 秒，调用一起获取未读消息数
