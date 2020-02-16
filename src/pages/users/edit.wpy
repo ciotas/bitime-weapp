@@ -92,7 +92,8 @@
       user: null,
       // 错误信息
       errors: null,
-      avatarId: 0
+      avatarId: 0,
+      refreshPage: '/pages/users/me'
     }
     async onShow() {
       // 获取当前用户信息
@@ -132,6 +133,12 @@
             icon: 'success',
             duration: 2000
           })
+          this.$parent.globalData.refreshPages = this.$parent.globalData.refreshPages.concat(this.refreshPage)
+          this.$apply()
+          // 2 秒后返回上一页
+          setTimeout(function() {
+            wepy.navigateBack()
+          }, 2000)
         }
       } catch (err) {
         console.log(err)
@@ -148,7 +155,7 @@
       try {
         // 获取选择的图片
         let avatar = image.tempFilePaths[0]
-
+        console.log(this.user)
         // 调用上传图片接口
         let imageResponse = await api.updateFile({
           url: 'images',
