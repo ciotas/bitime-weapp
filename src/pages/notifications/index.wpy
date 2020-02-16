@@ -55,7 +55,7 @@
     async getNotifications(reset = false) {
       try {
         let notificationResponse = await api.authRequest({
-          url: 'user/notifications',
+          url: 'notifications',
           data: {
             page: this.page
           }
@@ -71,7 +71,7 @@
           // 覆盖还是合并数据
           this.notifications = reset ? notifications : this.notifications.concat(notifications)
 
-          let pagination = notificationResponse.data.meta.pagination
+          let pagination = notificationResponse.data.meta
 
           // 根据分页判断是否有更多数据
           if (pagination.current_page === pagination.total_pages) {

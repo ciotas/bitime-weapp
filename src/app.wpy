@@ -166,7 +166,7 @@ export default class extends wepy.app {
     }
 
     // 请求消息统计接口
-    let notificationResponse = await api.authRequest('user/notifications/stats', false)
+    let notificationResponse = await api.authRequest('notifications/stats', false)
 
     //  请求成功，赋值全局变量 unreadCount
     if (notificationResponse.statusCode === 200) {
