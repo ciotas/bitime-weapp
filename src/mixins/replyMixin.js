@@ -35,7 +35,7 @@ export default class ReplyMixin extends wepy.mixin {
         // 如果reset不为true则合并 this.replies；否则直接覆盖
         this.replies = reset ? replies : this.replies.concat(replies)
 
-        let pagination = repliesResponse.data.meta.pagination
+        let pagination = repliesResponse.data.meta
 
         // 根据分页数据判断是否有更多数据
         if (pagination.current_page === pagination.total_pages) {

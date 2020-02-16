@@ -15,6 +15,13 @@
 .topic-title {
   padding: 15px;
 }
+.create-reply {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+}
 </style>
 <template>
   <view class="page">
@@ -48,7 +55,7 @@
       <view class="weui-panel weui-panel_access" wx:if="{{ topic.reply_count }}">
         <view class="weui-panel__hd">回复 ({{ topic.reply_count }})</view>
         <view class="weui-panel__bd">
-          <repeat for="{{ topic.topReplies.data }}" wx:key="id" index="index" item="reply">
+          <repeat for="{{ topic.top_replies }}" wx:key="id" index="index" item="reply">
             <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
               <navigator class="weui-media-box__hd weui-media-box__hd_in-appmsg" url="/pages/users/show?id={{ reply.user.id }}">
                 <image class="replyer-avatar weui-media-box__thumb" src="{{ reply.user.avatar }}" />
@@ -70,6 +77,10 @@
           </navigator>
         </view>
       </view>
+      <!-- 回复按钮 -->
+      <navigator url="/pages/replies/create?topic_id={{ topic.id }}">
+        <image src="/images/reply.png" class="create-reply" />
+      </navigator>
     </view>
   </view>
 </template>
@@ -105,7 +116,7 @@
         let topicResponse = await api.request({
           url: 'topics/' + id,
           data: {
-            include: 'user,category,topReplies'
+            include: 'user,category,topReplies.user'
           }
         })
         if (topicResponse.statusCode === 200) {
@@ -113,12 +124,12 @@
           // 格式化 updated_at
           topic.updated_at_diff = util.diffForHumans(topic.updated_at)
           // 处理回复数据的发布时间
-          if (topic.topReplies) {
-            topic.topReplies.data.forEach(function (reply) {
+          if (topic.top_replies) {
+            topic.top_replies.forEach(function (reply) {
               reply.created_at_diff = util.diffForHumans(reply.created_at)
             })
           }
-          
+  
           this.topic = topic
           this.$apply()
         }
@@ -139,6 +150,11 @@
       // 获取当前登录用户
       this.user = await this.$parent.getCurrentUser()
       this.$apply()
+    }
+    async onShow() {
+      this.$parent.checkRefreshPages(this.getCurrentPages().pop().route, () => {
+        this.getTopic(this.topic.id)
+      })
     }
     onShareAppMessage (res) {
       return {
