@@ -1,7 +1,10 @@
 import wepy from 'wepy'
 
-// 服务器接口地址__BASE_URL__
-const host = 'http://bitime.test/api/v1'
+var prod = process.env.NODE_ENV === 'production'
+
+const prodHost = 'https://www.bitime.xin/api/v1'
+const localHost = 'http://bitime.test/api/v1'
+const host = prod ? prodHost : localHost
 
 // 普通请求
 const request = async (options, showLoading = true) => {

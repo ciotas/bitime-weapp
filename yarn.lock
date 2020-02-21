@@ -4581,6 +4581,11 @@ wepy-eslint@^1.5.4:
   resolved "https://registry.npm.taobao.org/wepy-eslint/download/wepy-eslint-1.5.4.tgz#56a1315daf1f09334ad6a1e8237eb823b50f82b3"
   integrity sha1-VqExXa8fCTNK1qHoI364I7UPgrM=
 
+wepy-html@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.npm.taobao.org/wepy-html/download/wepy-html-0.1.6.tgz#f3201c3935fe939775a67215f1d9a8811eef8d43"
+  integrity sha1-8yAcOTX+k5d1pnIV8dmogR7vjUM=
+
 wepy-plugin-imagemin@^1.5.3:
   version "1.5.3"
   resolved "https://registry.npm.taobao.org/wepy-plugin-imagemin/download/wepy-plugin-imagemin-1.5.3.tgz#deca510d4c4ff98b5be3891926e885d82b7d9d1c"

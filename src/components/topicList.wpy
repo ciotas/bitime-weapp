@@ -39,7 +39,7 @@
               <view class="weui-media-box__info__meta">{{ topic.updated_at_diff }}</view>
             </view>
           </view>
-          <view class="weui-badge reply-count">{{ topic.reply_count }}</view>
+          <!-- <view class="weui-badge reply-count">{{ topic.reply_count }}</view> -->
         </navigator>
       </repeat>
       <view class="weui-loadmore weui-loadmore_line" wx:if="{{ noMoreData }}">

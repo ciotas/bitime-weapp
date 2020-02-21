@@ -24,9 +24,9 @@ module.exports = {
     less: {
       compress: prod
     },
-    /*sass: {
+    /* sass: {
       outputStyle: 'compressed'
-    },*/
+    }, */
     babel: {
       sourceMap: true,
       presets: [
@@ -41,11 +41,35 @@ module.exports = {
     }
   },
   plugins: {
+    // replace: {
+    //   filter: /\.js$/,
+    //   config: {
+    //     find: /__BASE_URL__/g,
+    //     replace: prod ? "'https://www.bitime.xin/api/v1'" : "'http://bitime.test/api/v1'"
+    //   },
+    // },
     replace: {
-      filter: /\.js$/,
+      filter: /\.wxml$/,
       config: {
-        find: /__BASE_URL__/g,
-        replace: prod ? "'https://www.bitime.xin/api/v1'" : "'http://bitime.test/api/v1'"
+        find: /<\!-- wepyhtml-repeat start -->([\W\w]+?)<\!-- wepyhtml-repeat end -->/,
+        replace(match, tpl) {
+          let result = ''
+          let prefix = ''
+          tpl = tpl.replace(/\{\{\s*(\$.*?\$)thisIsMe\s*\}\}/, (match, p) => {
+            prefix = p
+            return ''
+          })
+
+          for (let i = 0; i <= 20; i++) {
+            result += '\n' + tpl
+              .replace('wepyhtml-0', 'wepyhtml-' + i)
+              .replace(/<\!-- next template -->/g, () => {
+                return i === 20 ? '' :
+                  `<template is="wepyhtml-${ i + 1 }" wx:if="{{ item.children }}" data="{{ ${ prefix }content: item.children, ${ prefix }imgInsteadOfVideo: ${ prefix }imgInsteadOfVideo }}"></template>`;
+              })
+          }
+          return result
+        }
       }
     }
   },
@@ -77,12 +101,38 @@ if (prod) {
         }
       }
     },
+    // replace: {
+    //   filter: /\.js$/,
+    //   config: {
+    //     find: /__BASE_URL__/g,
+    //     replace: prod ? "'https://www.bitime.xin/api/v1'" : "'http://bitime.test/api/v1'"
+    //   }
+    // },
     replace: {
-      filter: /\.js$/,
-      config: {
-        find: /__BASE_URL__/g,
-        replace: prod ? "'https://www.bitime.xin/api/v1'" : "'http://bitime.test/api/v1'"
-      }
-    }
+			filter: /\.wxml$/,
+			config: {
+				find: /<\!-- wepyhtml-repeat start -->([\W\w]+?)<\!-- wepyhtml-repeat end -->/,
+				replace(match, tpl) {
+					let result = ''
+					let prefix = ''
+
+					tpl = tpl.replace(/\{\{\s*(\$.*?\$)thisIsMe\s*\}\}/, (match, p) => {
+						prefix = p
+						return ''
+					})
+
+					for (let i = 0; i <= 20; i++) {
+						result += '\n' + tpl
+							.replace('wepyhtml-0', 'wepyhtml-' + i)
+							.replace(/<\!-- next template -->/g, () => {
+								return i === 20 ?
+									'' :
+									`<template is="wepyhtml-${ i + 1 }" wx:if="{{ item.children }}" data="{{ ${ prefix }content: item.children, ${ prefix }imgInsteadOfVideo: ${ prefix }imgInsteadOfVideo }}"></template>`;
+							});
+					}
+					return result
+				}
+			}
+		}
   }
 }

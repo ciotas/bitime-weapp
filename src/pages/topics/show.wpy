@@ -22,8 +22,11 @@
   bottom: 30px;
   right: 30px;
 }
+.wepyhtml-tag-p {
+	margin: 1em 0;
+}
 </style>
-<template>
+<template lang="wxml">
   <view class="page">
     <view class="page__bd">
       <view class="weui-cells weui-cells_after-title">
@@ -39,7 +42,7 @@
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
       </view>
-      <view class="topic-title">
+        <view class="topic-title">
         <view class="page__title">{{ topic.title }}</view>
         <view class="weui-media-box__info topic-info">
           <view class="weui-media-box__info__meta">{{ topic.category.name }} • </view>
@@ -48,7 +51,8 @@
         </view>
       </view>
       <view class="weui-article">
-        <rich-text nodes="{{ topic.body }}" bindtap="tap"></rich-text>
+        <!-- <rich-text nodes="{{ topic.body }}" bindtap="tap"></rich-text> -->
+        <wepy-html />
         <button wx:if="{{ canDelete }}" @tap="deleteTopic" class="weui-btn mini-btn" type="default" size="mini">删除</button>
       </view>
       <!-- 话题回复 -->
@@ -88,8 +92,11 @@
   import wepy from 'wepy'
   import api from '@/utils/api'
   import util from '@/utils/util'
-
+  import WepyHTML from 'wepy-html'
   export default class TopicShow extends wepy.page {
+    components = {
+      'wepy-html': WepyHTML
+    }
     config = {
       navigationBarTitleText: '话题详情'
     }
@@ -149,6 +156,24 @@
       await this.getTopic(options.id)
       // 获取当前登录用户
       this.user = await this.$parent.getCurrentUser()
+
+      // 调用组件接口，传入HTML内容和相关参数
+      this.$invoke('wepy-html', 'updateContent', this.topic.body, {
+        // 是否使用图片代替视频（点击时全屏播放视频），
+        // 主要用于防止视频组件遮挡其他元素
+        imgInsteadOfVideo: true,
+
+        // 可以在此函数中处理链接点击
+        onHyperlinkTap(e) {
+          // e.href 为链接地址
+        },
+
+        // 可以在此函数中修改属性
+        onNodeCreate(nodeName, attrs) {
+          // nodeName 为标签名
+          // attrs 为属性集合
+        }
+      })
       this.$apply()
     }
     async onShow() {
